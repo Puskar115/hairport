@@ -1,0 +1,127 @@
+const fs = require('fs');
+
+const scheduleHtml = `
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedule Service — Ranchi Hair Port</title>
+  <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="/tailwind_base.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body class="font-sans antialiased bg-[#FAF9F5] dark:bg-[#0F0F0F] text-[#1C1C1C] dark:text-[#F8F8F8] flex flex-col min-h-screen">
+
+  <header class="sticky top-0 z-30 px-4 py-3 bg-white/90 dark:bg-[#141414]/90 backdrop-blur-xl border-b border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between">
+    <a href="/hairport/user/cart" class="flex items-center gap-2 px-2 py-1.5 -ml-2 rounded-xl hover:bg-stone-100 dark:hover:bg-stone-800 transition-colors group">
+      <svg class="w-5 h-5 text-[#E23744] group-hover:-translate-x-0.5 transition-transform" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m15 18-6-6 6-6"/></svg>
+      <span class="text-sm font-extrabold text-[#E23744] hidden sm:inline">Back to Cart</span>
+    </a>
+    <div class="flex items-center gap-2.5">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-br from-rose-500 to-rose-600 text-white flex items-center justify-center shadow-md shadow-rose-500/20">
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+      </div>
+      <h1 class="text-base font-black text-[#1C1C1C] dark:text-[#F8F8F8]">Schedule</h1>
+    </div>
+    <div class="flex items-center gap-2">
+      <button onclick="document.documentElement.classList.toggle('dark');" class="w-9 h-9 rounded-xl flex items-center justify-center bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-300 hover:bg-stone-200 dark:hover:bg-stone-700 transition-colors">
+        <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <main class="flex-1 w-full max-w-2xl mx-auto px-4 sm:px-6 py-5 flex flex-col gap-6">
+
+    <!-- Progress Steps -->
+    <div class="w-full flex items-center justify-between relative px-2">
+      <div class="absolute top-1/2 left-6 right-6 h-0.5 bg-stone-200 dark:bg-stone-800 -translate-y-1/2 rounded-full"></div>
+      <div class="absolute top-1/2 left-6 h-0.5 bg-gradient-to-r from-[#E23744] to-rose-400 -translate-y-1/2 rounded-full transition-all duration-500" style="width:66%"></div>
+      
+      <div class="flex flex-col items-center gap-1.5 relative z-10">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#E23744] to-rose-500 text-white flex items-center justify-center font-extrabold shadow-lg shadow-rose-500/30 ring-4 ring-rose-500/15">
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+        </div>
+        <span class="text-[10px] font-black text-[#E23744] uppercase tracking-wider">Cart</span>
+      </div>
+      
+      <div class="flex flex-col items-center gap-1.5 relative z-10">
+        <div class="w-9 h-9 rounded-full bg-gradient-to-br from-[#E23744] to-rose-500 text-white flex items-center justify-center font-extrabold shadow-lg shadow-rose-500/30 ring-4 ring-rose-500/15">
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+        </div>
+        <span class="text-[10px] font-black text-[#E23744] uppercase tracking-wider">Schedule</span>
+      </div>
+
+      <div class="flex flex-col items-center gap-1.5 relative z-10">
+        <div class="w-9 h-9 rounded-full bg-white dark:bg-stone-800 text-stone-400 border-2 border-stone-300 dark:border-stone-700 flex items-center justify-center">
+          <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
+        </div>
+        <span class="text-[10px] font-bold text-stone-400 uppercase tracking-wider">Checkout</span>
+      </div>
+    </div>
+
+    <!-- Schedule Form -->
+    <div class="bg-white dark:bg-[#1E1E1E] rounded-3xl p-6 border border-stone-200 dark:border-stone-800 shadow-sm mt-4">
+        <h2 class="text-lg font-black text-[#1C1C1C] dark:text-white mb-6">Select Details</h2>
+        <form action="/hairport/user/cart/book" method="POST" class="space-y-5">
+            <div class="space-y-1.5">
+                <label class="text-[11px] font-extrabold uppercase tracking-wider text-stone-500">Choose Salon Center</label>
+                <select name="location" class="w-full px-4 py-3.5 bg-stone-50 dark:bg-stone-900 text-sm font-black rounded-xl border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-rose-500/30 text-[#1C1C1C] dark:text-white" required>
+                    <option value="" disabled selected>Select a location...</option>
+                    <option value="Lalpur Center (Opposite Nucleus Mall)">Lalpur Center (Opposite Nucleus Mall)</option>
+                    <option value="Lalji Hirji Road Center">Lalji Hirji Road Center</option>
+                </select>
+            </div>
+            
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-extrabold uppercase tracking-wider text-stone-500">Preferred Date</label>
+                    <input type="date" name="date" id="booking-date" class="w-full px-4 py-3.5 bg-stone-50 dark:bg-stone-900 text-sm font-black rounded-xl border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-rose-500/30 text-[#1C1C1C] dark:text-white" required>
+                </div>
+                <div class="space-y-1.5">
+                    <label class="text-[11px] font-extrabold uppercase tracking-wider text-stone-500">Preferred Time</label>
+                    <select name="time" class="w-full px-4 py-3.5 bg-stone-50 dark:bg-stone-900 text-sm font-black rounded-xl border border-stone-200 dark:border-stone-700 focus:outline-none focus:ring-2 focus:ring-rose-500/30 text-[#1C1C1C] dark:text-white" required>
+                        <option value="" disabled selected>Select a time slot...</option>
+                        <option value="10:00 AM">10:00 AM</option>
+                        <option value="11:00 AM">11:00 AM</option>
+                        <option value="12:00 PM">12:00 PM</option>
+                        <option value="01:00 PM">01:00 PM</option>
+                        <option value="02:00 PM">02:00 PM</option>
+                        <option value="03:00 PM">03:00 PM</option>
+                        <option value="04:00 PM">04:00 PM</option>
+                        <option value="05:00 PM">05:00 PM</option>
+                        <option value="06:00 PM">06:00 PM</option>
+                        <option value="07:00 PM">07:00 PM</option>
+                        <option value="08:00 PM">08:00 PM</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="pt-4 flex items-center justify-between gap-4 mt-2">
+                <a href="/hairport/user/cart" class="w-1/3 py-3.5 rounded-xl border-2 border-stone-200 dark:border-stone-700 text-stone-600 dark:text-stone-300 font-black text-sm uppercase tracking-wider text-center hover:bg-stone-50 dark:hover:bg-stone-800 transition-colors">Back</a>
+                <button type="submit" class="w-2/3 py-3.5 rounded-xl bg-gradient-to-r from-[#E23744] to-rose-500 hover:from-[#CB202D] hover:to-rose-600 text-white font-black text-sm uppercase tracking-wider shadow-lg shadow-rose-500/25 active:scale-[0.97] transition-all flex items-center justify-center gap-2">
+                    Book Now
+                    <svg class="w-4 h-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                </button>
+            </div>
+        </form>
+    </div>
+  </main>
+  
+  <script>
+      document.addEventListener('DOMContentLoaded', () => {
+          const dateInput = document.getElementById('booking-date');
+          const today = new Date();
+          const yyyy = today.getFullYear();
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const dd = String(today.getDate()).padStart(2, '0');
+          const formattedToday = \`\${yyyy}-\${mm}-\${dd}\`;
+          dateInput.min = formattedToday;
+      });
+  </script>
+</body>
+</html>
+`;
+
+fs.writeFileSync('/home/orstead/Documents/hairport_prod/views/schedule.ejs', scheduleHtml);
+console.log('Successfully compiled schedule.ejs');

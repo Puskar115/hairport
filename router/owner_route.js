@@ -15,7 +15,7 @@
 
 const express = require("express");
 const router = express.Router();
-const { renderLogin, verifyPin, renderDashboard, renderCreateListing, createListing, finishOrder, logoutOwner } = require("../controllers/ownerController.js");
+const { renderLogin, verifyPin, renderDashboard, renderCreateListing, createListing, finishOrder, rejectOrder, logoutOwner } = require("../controllers/ownerController.js");
 const { isOwner } = require("../middlewares/ownerAuth.js");
 
 router.get("/login", renderLogin);
@@ -26,7 +26,8 @@ router.get("/dashboard", isOwner, renderDashboard);
 // New Routes for listing creation and finishing orders
 router.get("/listing/new", isOwner, renderCreateListing);
 router.post("/listing", isOwner, createListing);
-router.delete("/order/:id", isOwner, finishOrder); 
+router.put("/order/:id/finish", isOwner, finishOrder); 
+router.put("/order/:id/reject", isOwner, rejectOrder);
 
 router.get("/logout", logoutOwner);
 
